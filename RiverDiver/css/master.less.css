@@ -1,0 +1,241 @@
+// css reset
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outline:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+// mixins
+.clearfix {
+	zoom: 1;
+	&:after {
+	      display: block;
+	      visibility: hidden;
+	      height: 0;
+	      clear: both;
+	      content: ' ';
+	}
+}
+
+.box-shadow(@x, @y, @blur, @color) {
+	-ms-box-shadow: @x @y @blur @color;	
+	-moz-box-shadow: @x @y @blur @color;
+	-webkit-box-shadow: @x @y @blur @color;
+	box-shadow: @x @y @blur @color;	
+}
+
+body {
+	background: #F6F6F6;
+	font-size: 12px;
+	font-family: arial, helvetica, sans-serif;
+}
+
+// specific styles
+.wrapper {
+	position: relative;
+	width: 940px;
+	margin: 0 auto;
+}
+
+#header {
+	min-height: 112px;
+	background: #423d3a url(../images/bg_header.png) repeat-x left top;
+
+	h1 a {
+		position: absolute;
+		top: 38px;
+		left: 32px;
+		width: 319px;
+		height: 39px;
+		display: block;
+		text-indent: -9999px;
+		overflow: hidden;
+		background: url(../images/logo.png) no-repeat left top;
+	}
+
+	.contact-info {
+		.clearfix;
+		position: absolute;
+		top: 30px;
+		right: 32px;
+		font-size: 12px;
+		color: #aeb3b6;
+		line-height: 1.4;
+
+		span {
+			float: left; 
+			margin-left: 16px;
+		}
+
+		a {
+			color: #aeb3b6;
+			text-decoration: underline;
+		}
+	}
+}
+
+#nav {
+	min-height: 108px;
+	background: #c4d8e4 url(../images/bg_nav.png) repeat-x left top;
+
+	ul {
+		.clearfix;
+		font-size: 21px;
+		font-weight: bold;
+		position: absolute;
+		top: 44px;
+		right: 0;
+
+		li {
+			float: left;
+			margin-left: 36px;
+
+			a {
+				color: #616161;
+				text-decoration: none;
+				&:hover {
+					color: #4B4745;
+				}
+			}
+		}
+	}
+}
+
+#content {
+	padding: 46px 0;
+	border-top: 1px solid #fff;
+	overflow: hidden;
+	margin-bottom: 36px;
+
+	.wrapper {
+		.clearfix;
+	}
+
+	h2 {
+		font-size: 21px;
+		color: #4b4745;
+		margin-bottom: 20px;
+	}
+
+	h3 {
+		font-size: 15px;
+		color: #4b4745;
+		margin-bottom: 14px;
+	}
+
+	a {
+		color: #8dadc7;
+		text-decoration: underline;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+
+	p {
+		color: #616161;
+		margin-bottom: 16px;
+		font-size: 12px;
+		line-height: 1.4em;
+	}
+
+	#sidebar {
+		float: left;
+		width: 300px;
+
+		.gallery {
+			.clearfix;
+
+			margin-bottom: 16px;
+
+			.image {
+				display: block;
+				width: 78px;
+				height: 78px;
+				border: 5px solid #423d3a;
+				margin: 5px;
+				float: left;
+			}
+
+			p {
+				margin: 0 5px;
+				font-size: 10px;
+			}
+		}
+	}
+
+	#main {
+		float: right;
+		width: 540px;
+	}
+}
+
+.wrecks {
+	.clearfix;
+	margin-bottom: 16px;
+
+	ul {
+		color: #616161;
+		font-size: 12px;
+		line-height: 1.4;
+		margin-left: 16px;
+		list-style: disc outside;
+		float: left;
+		width: 254px;
+	}
+}
+
+#footer {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 36px;
+	background: #f1f4f6;
+	font-size: 12px;
+	color: #aeb3b6;
+	border-top: 1px solid #eceef0;
+
+	.copy-right {
+		position: absolute;
+		top: 16px;
+		right: 0;
+	}
+}
+
+//  per page styling
+#controller-affiliates {
+    .affiliate {
+	    h3 {
+	        margin-bottom: 6px;
+            a {
+			    text-indent: -9999px;
+			    display: block;
+			    border: 2px solid #423d3a;
+            }
+	    }
+
+        +.affiliate {
+            margin-top: 30px;
+        }
+    }
+
+	#twobeeztraining-header {
+		a {
+			width: 468px;
+			height: 60px;
+			background: url(../images/affiliates/2Beez_banner.jpg) no-repeat left top;
+		}
+	}
+
+	#motelroyale-header {
+		a {
+			width: 194px;
+			height: 146px;
+			background: url(../images/affiliates/motel-royale_banner.jpg) no-repeat left top;
+		}
+	}
+}
+
+#controller-contact {
+	.contact-details {
+		font-size: 14px;
+		font-weight: bold;
+	}
+}
