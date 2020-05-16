@@ -28,10 +28,4 @@
     <_ContentIncludedByDefault Remove="wwwroot\fonts\economica-regular-webfont.woff" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Charters" />
-    <Folder Include="Views\Contact" />
-    <Folder Include="Views\Vessels" />
-  </ItemGroup>
-
 </Project>

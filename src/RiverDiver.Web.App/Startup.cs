@@ -1,7 +1,10 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Net;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Rewrite;
+using Microsoft.AspNetCore.Rewrite.Internal;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,10 +36,6 @@ namespace RiverDiver.Web.App
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
 
             app.UseStaticFiles(CreateStaticFileOptions());
 
@@ -44,6 +43,8 @@ namespace RiverDiver.Web.App
             {
                 routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
+
+            app.UseRewriter(CreateAspxRewriteOptions());
         }
 
         private static StaticFileOptions CreateStaticFileOptions()
@@ -56,6 +57,17 @@ namespace RiverDiver.Web.App
                     {
                         [".less"] = "text/plain"
                     }
+                }
+            };
+        }
+
+        private static RewriteOptions CreateAspxRewriteOptions()
+        {
+            return new RewriteOptions
+            {
+                Rules =
+                {
+                    new RedirectRule("(.*)\\.[aA][sS][pP][xX]", "$1", (int) HttpStatusCode.PermanentRedirect)
                 }
             };
         }
