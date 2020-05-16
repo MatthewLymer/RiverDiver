@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@(ViewBag.Title ?? "RiverDiver Dive Charters")</title>
+	<link rel="stylesheet/less" type="text/css" href="~/css/master.less.css" />
+	<script type="text/javascript" src="~/js/less-1.1.0.min.js"></script>
+	<script src="~/js/jquery-1.6.1.min.js" type="text/javascript"></script>
+	<script src="~/js/common.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+		$(document).ready(function(){
+			// google analytics
+			$.getScript((("https:" === document.location.protocol) ? "https://ssl." : "http://www.") + "google-analytics.com/ga.js", function(){
+				try { const pageTracker = _gat._getTracker("UA-11519285-1"); pageTracker._trackPageview(); }
+				catch (err) { }					
+			});
+		});
+	</script>
+    
+    <link href="~/css/jquery.lightbox.css" rel="stylesheet" type="text/css" />
+    <script src="~/js/jquery.lightbox.js" type="text/javascript"></script>
+    <script type="text/javascript">
+		$(document).ready(function(){
+			$("#sidebar .gallery a.image").lightBox();
+		});
+	</script>
+</head>
+<body id="controller-@ViewContext.RouteData.Values["controller"].ToString().ToLowerInvariant()">
+	<div id="header">
+		<div class="wrapper">
+			<h1><a href="~/">RiverDiver.ca</a></h1>
+			<p class="contact-info">
+				<span>
+					Thousand Islands Region<br/>
+					St. Lawrence River
+				</span>
+				<span>
+					Rick Lymer<br/>
+					905-706-6677<br/>
+					<script type="text/javascript">mailto('ricklymer', 'gmail', 'com');</script><br/>
+					<a href="http://www.facebook.com/profile.php?id=100001286155440">Facebook</a>
+				</span>
+			</p>
+		</div>
+	</div>
+
+	<div id="nav">
+		<div class="wrapper">
+			<ul>
+				<li><a href="~/">Home</a></li>
+				<li><a href="~/charters">Dives &amp; Charters</a></li>
+				<li><a href="~/vessels">Our Vessel</a></li>
+				<li><a href="~/contact">Contact Us</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<div id="content">
+		<div class="wrapper">
+			<div id="main">
+				@RenderBody()
+			</div>
+			<div id="sidebar">
+				<partial name="SidebarGallery"/>
+			</div>
+		</div>
+	</div>
+
+	<div id="footer">
+		<div class="wrapper">
+			<span class="copy-right">&copy; 2009 RiverDiver</span>
+		</div>
+	</div>
+</body>
+</html>

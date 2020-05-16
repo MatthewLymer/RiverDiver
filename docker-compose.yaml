@@ -1,0 +1,9 @@
+version: "3.2"
+
+services:
+  riverdiver-web-app:
+    build:
+      context: ./
+      dockerfile: ./devops/containers/riverdiver-web-app/Dockerfile
+    ports:
+      - 5000:80

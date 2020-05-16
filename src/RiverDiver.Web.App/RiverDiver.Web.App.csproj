@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\fonts\economica-bold-webfont.eot" />
+    <_ContentIncludedByDefault Remove="wwwroot\fonts\economica-bold-webfont.svg" />
+    <_ContentIncludedByDefault Remove="wwwroot\fonts\economica-bold-webfont.ttf" />
+    <_ContentIncludedByDefault Remove="wwwroot\fonts\economica-bold-webfont.woff" />
+    <_ContentIncludedByDefault Remove="wwwroot\fonts\economica-bolditalic-webfont.eot" />
+    <_ContentIncludedByDefault Remove="wwwroot\fonts\economica-bolditalic-webfont.svg" />
+    <_ContentIncludedByDefault Remove="wwwroot\fonts\economica-bolditalic-webfont.ttf" />
+    <_ContentIncludedByDefault Remove="wwwroot\fonts\economica-bolditalic-webfont.woff" />
+    <_ContentIncludedByDefault Remove="wwwroot\fonts\economica-italic-webfont.eot" />
+    <_ContentIncludedByDefault Remove="wwwroot\fonts\economica-italic-webfont.svg" />
+    <_ContentIncludedByDefault Remove="wwwroot\fonts\economica-italic-webfont.ttf" />
+    <_ContentIncludedByDefault Remove="wwwroot\fonts\economica-italic-webfont.woff" />
+    <_ContentIncludedByDefault Remove="wwwroot\fonts\economica-regular-webfont.eot" />
+    <_ContentIncludedByDefault Remove="wwwroot\fonts\economica-regular-webfont.svg" />
+    <_ContentIncludedByDefault Remove="wwwroot\fonts\economica-regular-webfont.ttf" />
+    <_ContentIncludedByDefault Remove="wwwroot\fonts\economica-regular-webfont.woff" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Charters" />
+    <Folder Include="Views\Contact" />
+    <Folder Include="Views\Vessels" />
+  </ItemGroup>
+
+</Project>
