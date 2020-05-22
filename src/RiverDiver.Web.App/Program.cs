@@ -14,6 +14,7 @@ namespace RiverDiver.Web.App
         {
             return WebHost
                 .CreateDefaultBuilder(args)
+                .UseUrls("http://*:5000")
                 .UseStartup<Startup>();
         }
     }

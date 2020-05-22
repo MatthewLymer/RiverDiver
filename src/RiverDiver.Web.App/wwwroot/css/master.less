@@ -14,7 +14,6 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 }
 
 .box-shadow(@x, @y, @blur, @color) {
-	-ms-box-shadow: @x @y @blur @color;	
 	-moz-box-shadow: @x @y @blur @color;
 	-webkit-box-shadow: @x @y @blur @color;
 	box-shadow: @x @y @blur @color;	
@@ -102,6 +101,7 @@ body {
 	border-top: 1px solid #fff;
 	overflow: hidden;
 	margin-bottom: 36px;
+	color: #616161;
 
 	.wrapper {
 		.clearfix;
@@ -129,7 +129,6 @@ body {
 	}
 
 	p {
-		color: #616161;
 		margin-bottom: 16px;
 		font-size: 12px;
 		line-height: 1.4em;
@@ -182,6 +181,7 @@ body {
 }
 
 #footer {
+	display: none;
 	position: fixed;
 	bottom: 0;
 	left: 0;
@@ -237,5 +237,104 @@ body {
 	.contact-details {
 		font-size: 14px;
 		font-weight: bold;
+	}
+}
+
+form {
+	line-height: 1.4em;
+	
+	.validation-summary-errors {
+		color: #e80c4d;
+		
+		ul {
+			list-style: disc inside;
+			margin-bottom: 16px;
+		}
+	}
+	
+	input[type="text"],
+	input[type="tel"],
+	input[type="email"],
+	input[type="password"],
+	textarea {
+		border: 1px solid #000;
+		border-radius: 5px;
+		padding: 5px;
+		width: 100%;
+		box-sizing: border-box;
+
+		&.input-validation-error {
+			border: 1px solid #e80c4d;
+		}
+	}
+	
+	textarea {
+		resize: none;
+		height: 100px;
+	}
+
+	input[data-val-required],
+	textarea[data-val-required] {
+		border-width: 2px;
+	}
+	
+	fieldset {
+		border: 1px solid #616161;
+		border-radius: 10px;
+		margin: 16px 0;
+	}
+	
+	label {
+		display: block;
+	}
+	
+	legend {
+		margin-left: 20px;
+		padding: 0 5px;
+	}
+	
+	.field {
+		margin: 10px;
+	}
+
+	.field-validation-error {
+		color: #e80c4d;
+		font-weight: bold;
+	}
+
+	.field-validation-valid {
+		display: none;
+	}
+	
+	ul.checkboxes {
+		margin: 10px;
+		
+		li {
+			display: inline-block;
+			width: 30%;
+			box-sizing: border-box;
+			
+			input {
+				float: left;
+			}
+			
+			label {
+				display: inline-block;
+				padding: 2px 0 0 2px;
+			}
+			
+			.clearfix;
+		}
+	}
+	
+	#signature {
+		padding: 10px;
+		
+		canvas {
+			background: #fff;
+			border-radius: 5px;
+			border: 1px dotted #616161;
+			display: block;
+		}
 	}
 }

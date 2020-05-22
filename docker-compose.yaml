@@ -6,4 +6,4 @@ services:
       context: ./
       dockerfile: ./devops/containers/riverdiver-web-app/Dockerfile
     ports:
-      - 5000:80
+      - 5000:5000

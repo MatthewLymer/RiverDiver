@@ -1,0 +1,130 @@
+﻿@model RiverDiver.Web.App.Models.WaiverModel
+
+<p>All persons on RiverDiver require reading and submitting a waiver before boarding any vessel.</p>
+
+<form method="post" id="waiver-form">
+    @if (!ViewContext.ViewData.ModelState.IsValid)
+    {
+        <p>
+            Please fix the following form validation errors:
+        </p>
+        
+        @Html.ValidationSummary(false)    
+    }
+    
+    <fieldset>
+        <legend>Contact</legend>
+
+        <div class="field">
+            <label asp-for="@Model.FirstName"></label>
+            <input asp-for="@Model.FirstName"/>
+        </div>
+        <div class="field">
+            <label asp-for="@Model.LastName"></label>
+            <input asp-for="@Model.LastName"/>
+        </div>
+        <div class="field">
+            <label asp-for="@Model.Email"></label>
+            <input asp-for="@Model.Email"/>
+        </div>
+        <div class="field">
+            <label asp-for="@Model.Phone"></label>
+            <input asp-for="@Model.Phone"/>
+        </div>
+        <div class="field">
+            <label asp-for="@Model.Address"></label>
+            <textarea asp-for="@Model.Address"></textarea>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Medical</legend>
+
+        <div class="field">
+            <label asp-for="@Model.Allergies"></label>
+            <textarea asp-for="@Model.Allergies"></textarea>
+        </div>
+        <div class="field">
+            <label asp-for="@Model.Medications"></label>
+            <textarea asp-for="@Model.Medications"></textarea>
+        </div>
+    </fieldset>
+    
+    <fieldset>
+        <legend>History</legend>
+        
+        <ul class="checkboxes">
+            <li>
+                <label asp-for="@Model.HeartAttack"></label>
+                <input asp-for="@Model.HeartAttack"/>
+            </li>
+            <li>
+                <label asp-for="@Model.Angina"></label>
+                <input asp-for="@Model.Angina"/>
+            </li>
+            <li>
+                <label asp-for="@Model.Asthma"></label>
+                <input asp-for="@Model.Asthma"/>
+            </li>
+            <li>
+                <label asp-for="@Model.Bronchitis"></label>
+                <input asp-for="@Model.Bronchitis"/>
+            </li>
+            <li>
+                <label asp-for="@Model.Diabetes"></label>
+                <input asp-for="@Model.Diabetes"/>
+            </li>
+            <li>
+                <label asp-for="@Model.Emphysema"></label>
+                <input asp-for="@Model.Emphysema"/>
+            </li>
+            <li>
+                <label asp-for="@Model.Seizures"></label>
+                <input asp-for="@Model.Seizures"/>
+            </li>
+            <li>
+                <label asp-for="@Model.Stroke"></label>
+                <input asp-for="@Model.Stroke"/>
+            </li>
+            <li>
+                <label asp-for="@Model.HighBloodPressure"></label>
+                <input asp-for="@Model.HighBloodPressure"/>
+            </li>
+        </ul>
+    </fieldset>
+    
+    <fieldset>
+        <legend>Signature</legend>
+        
+        <div id="signature">
+            <canvas width="500" height="150"></canvas>
+            <a href="javascript:;" class="clear">Clear</a>
+            @Html.HiddenFor(x => x.Signature)
+        </div>
+    </fieldset>
+
+    <button type="submit">Submit Waiver</button>
+</form>
+
+<script src="~/js/signature_pad.min.js"></script>
+
+<script>
+$(function (){
+    const signature = $('#signature');
+    const canvas = signature.find('canvas');    
+    
+    const signaturePad = new SignaturePad(canvas[0]);
+    
+    signature.find('a.clear').click(function () {
+       signaturePad.clear(); 
+    });
+    
+    const input = signature.find('input[type=hidden]');
+    
+    signaturePad.fromDataURL(input.val());
+    
+    $("#waiver-form").submit(function (){
+       input.val(signaturePad.toDataURL());
+    });
+});
+</script>
