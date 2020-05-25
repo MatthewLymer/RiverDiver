@@ -32,9 +32,35 @@
             <input asp-for="@Model.Phone"/>
         </div>
         <div class="field">
-            <label asp-for="@Model.Address"></label>
-            <textarea asp-for="@Model.Address"></textarea>
+            <label asp-for="@Model.StreetAddress"></label>
+            <input asp-for="@Model.StreetAddress" />
         </div>
+        <div class="field">
+            <label asp-for="@Model.City"></label>
+            <input asp-for="@Model.City" />
+        </div>        
+        <div class="field">
+            <label asp-for="@Model.Province"></label>
+            <input asp-for="@Model.Province" />
+        </div>
+        <div class="field">
+            <label asp-for="@Model.PostalCode"></label>
+            <input asp-for="@Model.PostalCode" />
+        </div>
+        <div class="field">
+            <label asp-for="@Model.Country"></label>
+            <input asp-for="@Model.Country" />
+        </div>
+    </fieldset>
+    
+    <fieldset>
+        <legend>Diver</legend>
+        
+        <div class="field">
+            <label asp-for="@Model.CertificationNumber"></label>
+            <input asp-for="@Model.CertificationNumber" />
+        </div>        
+        
     </fieldset>
 
     <fieldset>
@@ -42,11 +68,11 @@
 
         <div class="field">
             <label asp-for="@Model.Allergies"></label>
-            <textarea asp-for="@Model.Allergies"></textarea>
+            <input asp-for="@Model.Allergies" />
         </div>
         <div class="field">
             <label asp-for="@Model.Medications"></label>
-            <textarea asp-for="@Model.Medications"></textarea>
+            <input asp-for="@Model.Medications" />
         </div>
     </fieldset>
     
