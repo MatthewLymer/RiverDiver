@@ -332,3 +332,7 @@ templates/qa_common
 
 # kdiff3 orig files
 *.orig
+
+# terraform
+*.tfstate*
+.terraform/

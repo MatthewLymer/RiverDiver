@@ -1,9 +1,14 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Threading.Tasks;
+using System.Web;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using RiverDiver.Web.App.Models;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 using Spire.Pdf;
 using Spire.Pdf.Graphics;
 using Spire.Pdf.Widget;
@@ -31,14 +36,41 @@ namespace RiverDiver.Web.App.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(WaiverModel waiver)
+        public async Task<IActionResult> Index(WaiverModel waiver)
         {
-            return ModelState.IsValid 
-                ? CreateWaiverActionResult(waiver) 
-                : View(waiver);
+            if (!ModelState.IsValid)
+            {
+                return View(waiver);
+            }
+            
+            var stream = CreateWaiverStream(waiver);
+            
+            var apiKey = Environment.GetEnvironmentVariable("RD_SENDGRID_KEY");
+            var waiverToEmail = Environment.GetEnvironmentVariable("RD_WAIVER_TO_EMAIL");
+            var waiverFromEmail = Environment.GetEnvironmentVariable("RD_WAIVER_FROM_EMAIL");
+            
+            var client = new SendGridClient(apiKey);
+            var from = new EmailAddress(waiverFromEmail);
+            var subject = $"Waiver for passenger {waiver.FirstName} {waiver.LastName}";
+            var to = new EmailAddress(waiverToEmail);
+            var plainTextContent = $"Please see attached the waiver for passenger {waiver.FirstName} {waiver.LastName}";
+            var htmlContent = "<p>" + HttpUtility.HtmlEncode(plainTextContent) + "</p>";
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+
+            using (var base64Stream = new CryptoStream(stream, new ToBase64Transform(), CryptoStreamMode.Read))
+            using (var reader = new StreamReader(base64Stream))
+            {
+                msg.AddAttachment($"{waiver.FirstName} {waiver.LastName} waiver.pdf", reader.ReadToEnd(), "application/pdf");
+            }
+            
+            var response = await client.SendEmailAsync(msg);
+
+            var content = response.Body.ReadAsStringAsync();
+
+            return Ok(content);
         }
 
-        private IActionResult CreateWaiverActionResult(WaiverModel waiver)
+        private Stream CreateWaiverStream(WaiverModel waiver)
         {
             var fullName = $"{waiver.FirstName} {waiver.LastName}";
             var hasAllergies = !string.IsNullOrWhiteSpace(waiver.Allergies);
@@ -110,7 +142,7 @@ namespace RiverDiver.Web.App.Controllers
 
                 memoryStream.Position = 0;
 
-                return File(memoryStream, "application/pdf", WaiverFileName);
+                return memoryStream;
             }
         }
 
@@ -137,7 +169,7 @@ namespace RiverDiver.Web.App.Controllers
             if (!base64Image.StartsWith(expectedPrefix))
             {
                 throw new ArgumentException("Must be a base-64 png image", nameof(base64Image));
-            }
+            }           
 
             var binary = Convert.FromBase64String(base64Image.Substring(expectedPrefix.Length));
 

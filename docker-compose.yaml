@@ -4,6 +4,6 @@ services:
   riverdiver-web-app:
     build:
       context: ./
-      dockerfile: ./devops/containers/riverdiver-web-app/Dockerfile
+      dockerfile: ./containers/webapp/Dockerfile
     ports:
       - 5000:5000
