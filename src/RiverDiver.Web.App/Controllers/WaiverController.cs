@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using RiverDiver.Web.App.Models;
 using SendGrid;
 using SendGrid.Helpers.Mail;
@@ -23,10 +24,12 @@ namespace RiverDiver.Web.App.Controllers
         private const string DefaultTimeZone = "America/Toronto";
         
         private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly ILogger<WaiverController> _logger;
 
-        public WaiverController(IHostingEnvironment hostingEnvironment)
+        public WaiverController(IHostingEnvironment hostingEnvironment, ILogger<WaiverController> logger)
         {
             _hostingEnvironment = hostingEnvironment;
+            _logger = logger;
         }
         
         [HttpGet]
@@ -65,9 +68,27 @@ namespace RiverDiver.Web.App.Controllers
             
             var response = await client.SendEmailAsync(msg);
 
-            var content = response.Body.ReadAsStringAsync();
+            if ((int) response.StatusCode >= 400)
+            {
+                var content = await response.Body.ReadAsStringAsync();
+                
+                _logger.LogError("Failed to send email. (statusCode={0}, content={1})", response.StatusCode, content);
 
-            return Ok(content);
+                TempData["Errors"] = new []
+                {
+                    "There was a problem on our end sending your waiver, try downloading the waiver instead."
+                };
+                
+                return View(waiver);
+            }
+
+            return Redirect("~/waiver/thankyou");
+        }
+
+        [HttpGet]
+        public IActionResult ThankYou()
+        {
+            return View();
         }
 
         private Stream CreateWaiverStream(WaiverModel waiver)

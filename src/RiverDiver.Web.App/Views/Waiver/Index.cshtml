@@ -2,16 +2,30 @@
 
 <p>All persons on RiverDiver require reading and submitting a waiver before boarding any vessel.</p>
 
+<p>You may fill the form below, or <a href="~/forms/river-diver-waiver-form.pdf">download the waiver</a> and email <script>mailto('ricklymer', 'gmail', 'com')</script> instead.</p>
+
 <form method="post" id="waiver-form">
+    @if (TempData.TryGetValue("Errors", out var obj) && obj is IEnumerable<string> errors)
+    {
+        <div class="validation-summary-errors">
+            <ul>
+                @foreach (var error in errors)
+                {
+                    <li>@error</li>
+                }
+            </ul>
+        </div>
+    }
+    
     @if (!ViewContext.ViewData.ModelState.IsValid)
     {
         <p>
             Please fix the following form validation errors:
         </p>
-        
-        @Html.ValidationSummary(false)    
+
+        @Html.ValidationSummary(false)
     }
-    
+
     <fieldset>
         <legend>Contact</legend>
 
@@ -33,34 +47,34 @@
         </div>
         <div class="field">
             <label asp-for="@Model.StreetAddress"></label>
-            <input asp-for="@Model.StreetAddress" />
+            <input asp-for="@Model.StreetAddress"/>
         </div>
         <div class="field">
             <label asp-for="@Model.City"></label>
-            <input asp-for="@Model.City" />
-        </div>        
+            <input asp-for="@Model.City"/>
+        </div>
         <div class="field">
             <label asp-for="@Model.Province"></label>
-            <input asp-for="@Model.Province" />
+            <input asp-for="@Model.Province"/>
         </div>
         <div class="field">
             <label asp-for="@Model.PostalCode"></label>
-            <input asp-for="@Model.PostalCode" />
+            <input asp-for="@Model.PostalCode"/>
         </div>
         <div class="field">
             <label asp-for="@Model.Country"></label>
-            <input asp-for="@Model.Country" />
+            <input asp-for="@Model.Country"/>
         </div>
     </fieldset>
-    
+
     <fieldset>
         <legend>Diver</legend>
-        
+
         <div class="field">
             <label asp-for="@Model.CertificationNumber"></label>
-            <input asp-for="@Model.CertificationNumber" />
-        </div>        
-        
+            <input asp-for="@Model.CertificationNumber"/>
+        </div>
+
     </fieldset>
 
     <fieldset>
@@ -68,17 +82,17 @@
 
         <div class="field">
             <label asp-for="@Model.Allergies"></label>
-            <input asp-for="@Model.Allergies" />
+            <input asp-for="@Model.Allergies"/>
         </div>
         <div class="field">
             <label asp-for="@Model.Medications"></label>
-            <input asp-for="@Model.Medications" />
+            <input asp-for="@Model.Medications"/>
         </div>
     </fieldset>
-    
+
     <fieldset>
         <legend>History</legend>
-        
+
         <ul class="checkboxes">
             <li>
                 <label asp-for="@Model.HeartAttack"></label>
@@ -118,10 +132,10 @@
             </li>
         </ul>
     </fieldset>
-    
+
     <fieldset>
         <legend>Signature</legend>
-        
+
         <div id="signature">
             <canvas width="500" height="150"></canvas>
             <a href="javascript:;" class="clear">Clear</a>
