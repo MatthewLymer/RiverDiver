@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 namespace RiverDiver.Web.App.Models
 {
@@ -64,10 +65,10 @@ namespace RiverDiver.Web.App.Models
 
         public bool Stroke { get; set; }
 
-
         [DisplayName("High Blood Pressure")]
         public bool HighBloodPressure { get; set; }
 
+        [JsonIgnore]
         public string Signature { get; set; }
     }
 }

@@ -7,6 +7,7 @@ using System.Web;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using RiverDiver.Web.App.Models;
 using SendGrid;
 using SendGrid.Helpers.Mail;
@@ -57,16 +58,20 @@ namespace RiverDiver.Web.App.Controllers
             var subject = $"Waiver for passenger {waiver.FirstName} {waiver.LastName}";
             var to = new EmailAddress(waiverToEmail);
             var plainTextContent = $"Please see attached the waiver for passenger {waiver.FirstName} {waiver.LastName}";
-            var htmlContent = "<p>" + HttpUtility.HtmlEncode(plainTextContent) + "</p>";
-            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            var htmlContent = "<p>" + HttpUtility.HtmlEncode(plainTextContent) + "</p>"
+                + "<pre>" + HttpUtility.HtmlEncode(JsonConvert.SerializeObject(waiver)) + "</pre>";
+            
+            var message = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
 
             using (var base64Stream = new CryptoStream(stream, new ToBase64Transform(), CryptoStreamMode.Read))
             using (var reader = new StreamReader(base64Stream))
             {
-                msg.AddAttachment($"{waiver.FirstName} {waiver.LastName} waiver.pdf", reader.ReadToEnd(), "application/pdf");
+                var waiverFileName = $"{waiver.FirstName} {waiver.LastName} waiver.pdf";
+                var base64Content = reader.ReadToEnd();
+                message.AddAttachment(waiverFileName, base64Content, "application/pdf");
             }
             
-            var response = await client.SendEmailAsync(msg);
+            var response = await client.SendEmailAsync(message);
 
             if ((int) response.StatusCode >= 400)
             {
@@ -183,21 +188,28 @@ namespace RiverDiver.Web.App.Controllers
             }
         }
 
-        private static PdfImage CreatePdfImage(string base64Image)
+        private static PdfImage CreatePdfImage(string signature)
         {
-            const string expectedPrefix = "data:image/png;base64,";
+            var base64 = GetBase64Image(signature);
 
-            if (!base64Image.StartsWith(expectedPrefix))
-            {
-                throw new ArgumentException("Must be a base-64 png image", nameof(base64Image));
-            }           
-
-            var binary = Convert.FromBase64String(base64Image.Substring(expectedPrefix.Length));
+            var binary = Convert.FromBase64String(base64);
 
             using (var stream = new MemoryStream(binary))
             {
                 return PdfImage.FromStream(stream);
             }
+        }
+
+        private static string GetBase64Image(string signature)
+        {
+            const string expectedPrefix = "data:image/png;base64,";
+
+            if (!signature.StartsWith(expectedPrefix))
+            {
+                throw new ArgumentException("Must be a base-64 png image", nameof(signature));
+            }
+
+            return signature.Substring(expectedPrefix.Length);
         }
     }
 }
